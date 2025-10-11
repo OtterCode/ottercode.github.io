@@ -1,0 +1,134 @@
+<html>
+<head>
+  <title>SVG Path Demo</title>
+</head>
+<body>
+  <script>
+const straight = `<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="49"/>
+    </clipPath>
+    <style>
+      .rim { fill: none; stroke: #000; stroke-width: 2; }
+      .road-outline { fill: none; stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.39in; }
+      .road-fill { fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.33in; }
+      .bg { fill: #fff; }
+    </style>
+  </defs>
+  <circle cx="50" cy="50" r="49" class="bg"/>
+  <g clip-path="url(#circleClip)">
+    <path class="road-outline" d="M50 -20 L50 120"/>
+    <path class="road-fill" d="M50 -20 L50 120"/>
+  </g>
+  <circle cx="50" cy="50" r="49" class="rim"/>
+</svg>
+`
+const turn = `<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="49"/>
+    </clipPath>
+    <style>
+      .rim { fill: none; stroke: #000; stroke-width: 2; }
+      .road-outline { fill: none; stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.39in; }
+      .road-fill { fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.33in; }
+      .bg { fill: #fff; }
+    </style>
+  </defs>
+  <circle cx="50" cy="50" r="49" class="bg"/>
+  <g clip-path="url(#circleClip)">
+    <path class="road-outline" d="M50 -20 L50 50 L120 50"/>
+    <path class="road-fill" d="M50 -20 L50 50 L120 50"/>
+  </g>
+  <circle cx="50" cy="50" r="49" class="rim"/>
+</svg>
+`
+
+const tee = `<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="49"/>
+    </clipPath>
+    <style>
+      .rim { fill: none; stroke: #000; stroke-width: 2; }
+      .road-outline { fill: none; stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.39in; }
+      .road-fill { fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.33in; }
+      .bg { fill: #fff; }
+    </style>
+  </defs>
+  <circle cx="50" cy="50" r="49" class="bg"/>
+  <g clip-path="url(#circleClip)">
+    <path class="road-outline" d="M-20 50 L120 50"/>
+    <path class="road-fill" d="M-20 50 L120 50"/>
+    <path class="road-outline" d="M50 -20 L50 50"/>
+    <path class="road-fill" d="M50 -20 L50 50"/>
+  </g>
+  <circle cx="50" cy="50" r="49" class="rim"/>
+</svg>
+`
+
+const cross = `<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in" viewBox="0 0 100 100">
+  <defs>
+    <clipPath id="circleClip">
+      <circle cx="50" cy="50" r="49"/>
+    </clipPath>
+    <style>
+      .rim { fill: none; stroke: #000; stroke-width: 2; }
+      .road-outline { fill: none; stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.39in; }
+      .road-fill { fill: none; stroke: #fff; stroke-linecap: round; stroke-linejoin: round; stroke-width: 0.33in; }
+      .bg { fill: #fff; }
+    </style>
+  </defs>
+  <circle cx="50" cy="50" r="49" class="bg"/>
+  <g clip-path="url(#circleClip)">
+    <path class="road-outline" d="M-20 50 L120 50"/>
+    <path class="road-fill" d="M-20 50 L120 50"/>
+    <path class="road-outline" d="M50 -20 L50 120"/>
+    <path class="road-fill" d="M50 -20 L50 120"/>
+  </g>
+  <circle cx="50" cy="50" r="49" class="rim"/>
+</svg>
+`
+
+const empty = `<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="49" fill="white" stroke="black" stroke-width="2"/>
+</svg>
+`
+
+const tiles = [straight, turn, tee, cross, empty];
+
+function createRandomTable(rows = 5, cols = 5) {
+  const table = document.createElement("table");
+  table.style.borderCollapse = "collapse";
+
+  for (let r = 0; r < rows; r++) {
+    const tr = table.appendChild(document.createElement("tr"));
+    for (let c = 0; c < cols; c++) {
+      const td = tr.appendChild(document.createElement("td"));
+      td.innerHTML = tiles[Math.floor(Math.random() * tiles.length)];
+      td.style.border = "1px solid #999";
+      td.style.padding = "0";
+    }
+  }
+  document.body.appendChild(table);
+}
+
+// Example use:
+createRandomTable(6, 6);
+
+let angle = 0;
+const step = 5; // degrees per scroll tick — divides 90 evenly
+
+window.addEventListener('wheel', e => {
+  e.preventDefault();
+  angle += (e.deltaY > 0 ? step : -step);
+  document.querySelectorAll('svg').forEach(svg => {
+    svg.style.transformBox = 'fill-box';
+    svg.style.transformOrigin = '50% 50%';
+    svg.style.transform = `rotate(${angle}deg)`;
+  });
+}, { passive: false });
+  </script>
+</body>
+</html>
