@@ -149,10 +149,17 @@ window.addEventListener('touchmove', e => {
   });
 }, { passive: false });
 
-window.addEventListener('touchend', () => lastY = null);
+window.addEventListener('touchend', () => {
+  angle = Math.round(angle / 90) * 90;
+  document.querySelectorAll('svg').forEach(svg => {
+    svg.style.transform = `rotate(${angle}deg)`;
+  });
+  lastY = null;
+});
     
   </script>
 </body>
 
 </html>
+
 
