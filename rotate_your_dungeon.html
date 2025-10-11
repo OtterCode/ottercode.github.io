@@ -122,16 +122,14 @@ function createRandomTable(rows = 5, cols = 5) {
 createRandomTable(6, 6);
 
 let angle = 0;
-const step = 5; // degrees per scroll tick — divides 90 evenly
+const step = 5; // degrees per wheel "tick" (divides 90 evenly)
 
 window.addEventListener('wheel', e => {
   e.preventDefault();
   angle += (e.deltaY > 0 ? step : -step);
   document.querySelectorAll('svg').forEach(svg => {
-    svg.style.transformBox = 'fill-box';
-    svg.style.transformOrigin = '50% 50%';
-    let startAngle = svg.getAttribute("startAngle");
-    svg.style.transform = `rotate(${startAngle+angle}deg)`;
+    const base = Number(svg.getAttribute("startAngle")) || 0;
+    svg.style.transform = `rotate(${base + angle}deg)`;
   });
 }, { passive: false });
 
@@ -148,17 +146,16 @@ window.addEventListener('touchmove', e => {
   lastY = y;
   angle += dy * 0.5; // adjust sensitivity
   document.querySelectorAll('svg').forEach(svg => {
-    svg.style.transformBox = 'fill-box';
-    svg.style.transformOrigin = '50% 50%';
-    let startAngle = svg.getAttribute("startAngle");
-    svg.style.transform = `rotate(${startAngle+angle}deg)`;
+    const base = Number(svg.getAttribute("startAngle")) || 0;
+    svg.style.transform = `rotate(${base + angle}deg)`;
   });
 }, { passive: false });
 
 window.addEventListener('touchend', () => {
-  angle = Math.round(angle / 90) * 90;
+  angle = Math.round(angle / 90) * 90; // snap
   document.querySelectorAll('svg').forEach(svg => {
-    svg.style.transform = `rotate(${startAngle+angle}deg)`;
+    const base = Number(svg.getAttribute("startAngle")) || 0;
+    svg.style.transform = `rotate(${base + angle}deg)`;
   });
   lastY = null;
 });
@@ -167,6 +164,7 @@ window.addEventListener('touchend', () => {
 </body>
 
 </html>
+
 
 
 
