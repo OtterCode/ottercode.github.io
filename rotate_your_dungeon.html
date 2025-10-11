@@ -130,38 +130,29 @@ window.addEventListener('wheel', e => {
   });
 }, { passive: false });
 
-let startX = 0;
-let startY = 0;
-const threshold = 30; // minimum pixels of movement to count as a swipe
+let lastY = null;
 
 window.addEventListener('touchstart', e => {
-  const t = e.touches[0];
-  startX = t.clientX;
-  startY = t.clientY;
+  lastY = e.touches[0].clientY;
 }, { passive: true });
 
-window.addEventListener('touchend', e => {
-  const t = e.changedTouches[0];
-  const dx = t.clientX - startX;
-  const dy = t.clientY - startY;
-
-  // Choose the greater axis of movement
-  if (Math.abs(dx) > Math.abs(dy)) {
-    if (Math.abs(dx) > threshold)
-      angle += dx > 0 ? step : -step; // horizontal swipe
-  } else {
-    if (Math.abs(dy) > threshold)
-      angle += dy > 0 ? step : -step; // vertical swipe
-  }
-
+window.addEventListener('touchmove', e => {
+  e.preventDefault(); // stop page scrolling
+  const y = e.touches[0].clientY;
+  const dy = y - lastY;
+  lastY = y;
+  angle += dy * 0.5; // adjust sensitivity
   document.querySelectorAll('svg').forEach(svg => {
     svg.style.transformBox = 'fill-box';
     svg.style.transformOrigin = '50% 50%';
     svg.style.transform = `rotate(${angle}deg)`;
   });
-});
+}, { passive: false });
+
+window.addEventListener('touchend', () => lastY = null);
     
   </script>
 </body>
 
 </html>
+
