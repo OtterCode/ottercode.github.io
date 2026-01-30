@@ -39,7 +39,7 @@
             displayGrid.innerHTML = ''; // Clear previous content
             compatibleTargets.forEach(targetId => {
                 const img = document.createElement('img');
-                img.src = `effect_images/${targetId}_icon.png`;
+                img.src = `effect_images/${window.imageIndex[targetId]}`;
                 img.className = 'potion_icon';
                 displayGrid.appendChild(img);
             });
