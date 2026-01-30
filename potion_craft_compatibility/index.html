@@ -1,0 +1,96 @@
+<html>
+<head>
+    <title>Potion Craft Compatibility</title>
+    <!-- Preload the json needed for the display. -->
+    <link rel="preload" as="script" href="compat_grid.json">
+    <link rel="preload" as="script" href="image_index.json">
+    <script>
+        // Load compatibility data
+        fetch('compat_grid.json')
+            .then(response => response.json())
+            .then(data => {
+                window.compatData = data;
+            })
+            .catch(error => console.error('Error loading compatibility data:', error));
+        // Load image index data
+        fetch('image_index.json')
+            .then(response => response.json())
+            .then(data => {
+                window.imageIndex = data;
+            })
+            .catch(error => console.error('Error loading image index data:', error));
+        // Listen for clicks on the request anchors.
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('request_icon_grid').addEventListener('click', function(event) {
+                if (event.target.closest('a.request')) {
+                    event.preventDefault();
+                    const anchor = event.target.closest('a.request');
+                    const effectId = anchor.getAttribute('href').substring(1);
+                    displayCompatibility(effectId);
+                }
+            });
+        });
+
+        // Function to display compatibility information
+        function displayCompatibility(effectId) {
+            const compatData = window.compatData;
+            const compatibleTargets = compatData[effectId]?.compatible_targets || [];
+            const displayGrid = document.getElementById('compatibility_display_grid');
+            displayGrid.innerHTML = ''; // Clear previous content
+            compatibleTargets.forEach(targetId => {
+                const img = document.createElement('img');
+                img.src = `effect_images/${targetId}_icon.png`;
+                img.className = 'potion_icon';
+                displayGrid.appendChild(img);
+            });
+        }
+    </script>
+</head>
+<body>
+    <div id="request_icon_grid">
+        <a href="#01" class="request"><img class="potion_icon" src="effect_images/01_health.png"/></a>
+        <a href="#02" class="request"><img class="potion_icon" src="effect_images/02_poison.png"/></a>
+        <a href="#03" class="request"><img class="potion_icon" src="effect_images/03_fire.png"/></a>
+        <a href="#04" class="request"><img class="potion_icon" src="effect_images/04_ice.png"/></a>
+        <a href="#05" class="request"><img class="potion_icon" src="effect_images/05_explosion.png"/></a>
+        <a href="#06" class="request"><img class="potion_icon" src="effect_images/06_wild_growth.png"/></a>
+        <a href="#07" class="request"><img class="potion_icon" src="effect_images/07_strength.png"/></a>
+        <a href="#08" class="request"><img class="potion_icon" src="effect_images/08_dexterity.png"/></a>
+        <a href="#09" class="request"><img class="potion_icon" src="effect_images/09_swiftness.png"/></a>
+        <a href="#10" class="request"><img class="potion_icon" src="effect_images/10_lightning.png"/></a>
+        <a href="#11" class="request"><img class="potion_icon" src="effect_images/11_mana.png"/></a>
+        <a href="#12" class="request"><img class="potion_icon" src="effect_images/12_stoneskin.png"/></a>
+        <a href="#13" class="request"><img class="potion_icon" src="effect_images/13_sleep.png"/></a>
+        <a href="#14" class="request"><img class="potion_icon" src="effect_images/14_light.png"/></a>
+        <a href="#15" class="request"><img class="potion_icon" src="effect_images/15_charm.png"/></a>
+        <a href="#16" class="request"><img class="potion_icon" src="effect_images/16_slow.png"/></a>
+        <a href="#17" class="request"><img class="potion_icon" src="effect_images/17_rage.png"/></a>
+        <a href="#18" class="request"><img class="potion_icon" src="effect_images/18_magical_vision.png"/></a>
+        <a href="#19" class="request"><img class="potion_icon" src="effect_images/19_acid.png"/></a>
+        <a href="#20" class="request"><img class="potion_icon" src="effect_images/20_libido.png"/></a>
+        <a href="#21" class="request"><img class="potion_icon" src="effect_images/21_invisibility.png"/></a>
+        <a href="#22" class="request"><img class="potion_icon" src="effect_images/22_levitation.png"/></a>
+        <a href="#23" class="request"><img class="potion_icon" src="effect_images/23_necromancy.png"/></a>
+        <a href="#24" class="request"><img class="potion_icon" src="effect_images/24_poison_protection.png"/></a>
+        <a href="#25" class="request"><img class="potion_icon" src="effect_images/25_lightning_protection.png"/></a>
+        <a href="#26" class="request"><img class="potion_icon" src="effect_images/26_fire_protection.png"/></a>
+        <a href="#27" class="request"><img class="potion_icon" src="effect_images/27_frost_protection.png"/></a>
+        <a href="#28" class="request"><img class="potion_icon" src="effect_images/28_glue.png"/></a>
+        <a href="#29" class="request"><img class="potion_icon" src="effect_images/29_slipperiness.png"/></a>
+        <a href="#30" class="request"><img class="potion_icon" src="effect_images/30_stink.png"/></a>
+        <a href="#31" class="request"><img class="potion_icon" src="effect_images/31_acid_protection.png"/></a>
+        <a href="#32" class="request"><img class="potion_icon" src="effect_images/32_magic_protection.png"/></a>
+        <a href="#33" class="request"><img class="potion_icon" src="effect_images/33_shrinking.png"/></a>
+        <a href="#34" class="request"><img class="potion_icon" src="effect_images/34_enlargement.png"/></a>
+        <a href="#35" class="request"><img class="potion_icon" src="effect_images/35_rejuvination.png"/></a>
+        <a href="#36" class="request"><img class="potion_icon" src="effect_images/36_inspiration.png"/></a>
+        <a href="#37" class="request"><img class="potion_icon" src="effect_images/37_perfume.png"/></a>
+        <a href="#38" class="request"><img class="potion_icon" src="effect_images/38_fear.png"/></a>
+        <a href="#39" class="request"><img class="potion_icon" src="effect_images/39_hallucination.png"/></a>
+        <a href="#40" class="request"><img class="potion_icon" src="effect_images/40_luck.png"/></a>
+        <a href="#41" class="request"><img class="potion_icon" src="effect_images/41_curse.png"/></a>
+    </div>
+    <div id="compatibility_display_grid">
+
+    </div>
+</body>
