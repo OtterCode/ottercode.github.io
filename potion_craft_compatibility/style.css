@@ -9,6 +9,7 @@ body {
 
 .grid > a {
     width: 60px;
+    display: inline-block;
 }
 
 .grid > a > img {
