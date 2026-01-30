@@ -12,5 +12,5 @@ body {
 }
 
 .grid > a > img {
-    width: 60px;
+    max-width: 60px;
 }
