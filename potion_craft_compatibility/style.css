@@ -1,7 +1,15 @@
+body {
+    text-align: center;
+}
+
 .grid {
-    max-width: 540px;
+    max-width: 550px;
 }
 
 .grid > a {
+    width: 60px;
+}
+
+.grid > a > img {
     width: 60px;
 }
