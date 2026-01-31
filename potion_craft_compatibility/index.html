@@ -20,12 +20,31 @@
 
         // Primary listener: Listens for clicks on the request anchors.
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('request_icon_grid').addEventListener('click', function(event) {
-                if (event.target.closest('a.request')) {
-                    event.preventDefault();
-                    const anchor = event.target.closest('a.request');
+            const grid = document.getElementById('request_icon_grid');
+            const multi = document.getElementById('select-multiple');
+
+            grid.addEventListener('click', function(event) {
+                const anchor = event.target.closest('a.request');
+                if (!anchor) return;
+                event.preventDefault();
+
+                if (multi.checked) {
                     anchor.classList.toggle('selected');
-                    refreshCompatibility();
+                } else {
+                    grid.querySelectorAll('a.request.selected').forEach(a => a.classList.remove('selected'));
+                    anchor.classList.add('selected');
+                }
+                refreshCompatibility();
+            });
+
+            multi.addEventListener('change', function() {
+                multi.setAttribute('aria-checked', multi.checked);
+                if (!multi.checked) {
+                    const selected = grid.querySelectorAll('a.request.selected');
+                    if (selected.length > 1) {
+                        selected.forEach((a, i) => { if (i > 0) a.classList.remove('selected'); });
+                        refreshCompatibility();
+                    }
                 }
             });
         });
@@ -51,6 +70,13 @@
     </script>
 </head>
 <body>
+    <div class="multi-toggle">
+      <label class="cutesy-toggle">
+        <input id="select-multiple" type="checkbox" role="switch" aria-checked="false" />
+        <span class="track"><span class="thumb"></span></span>
+      </label>
+      <span class="toggle-text">select multiple</span>
+    </div>
     <h2>Requested Potion</h2>
     <div id="request_icon_grid" class="grid">
         <a href="#01" class="request"><img class="potion_icon" src="effect_images/01_health.png"/></a>
