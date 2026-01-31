@@ -12,6 +12,8 @@ body {
     width: 60px;
     height: 60px;
     display: inline-block;
+    vertical-align: top;
+    margin-top: 5px;
 }
 
 .grid > a > img {
