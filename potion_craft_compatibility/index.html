@@ -17,25 +17,31 @@
                 window.imageIndex = data;
             })
             .catch(error => console.error('Error loading image index data:', error));
-        // Listen for clicks on the request anchors.
+
+        // Primary listener: Listens for clicks on the request anchors.
         document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('request_icon_grid').addEventListener('click', function(event) {
                 if (event.target.closest('a.request')) {
                     event.preventDefault();
                     const anchor = event.target.closest('a.request');
-                    const effectId = anchor.getAttribute('href').substring(1);
-                    displayCompatibility(effectId);
+                    anchor.classList.toggle('selected');
+                    refreshCompatibility();
                 }
             });
         });
 
         // Function to display compatibility information
-        function displayCompatibility(effectId) {
-            const compatData = window.compatData;
-            const compatibleTargets = compatData[effectId]?.compatible_targets || [];
+        function refreshCompatibility() {
+            const selectedRequests = document.querySelectorAll('#request_icon_grid a.request.selected');
+            const selectedEffectIds = Array.from(selectedRequests).map(anchor => anchor.getAttribute('href').substring(1));
+            const effectIntersection = selectedEffectIds.reduce((acc, effectId) => {
+                const compatTargets = new Set(window.compatData[effectId]?.compatible_targets || []);
+                if (acc === null) return compatTargets;
+                return acc.intersection(compatTargets);
+            }, null) || new Set();
             const displayGrid = document.getElementById('compatibility_display_grid');
             displayGrid.innerHTML = ''; // Clear previous content
-            compatibleTargets.forEach(targetId => {
+            effectIntersection.forEach(targetId => {
                 const img = document.createElement('img');
                 img.src = `${window.imageIndex[targetId]}`;
                 img.className = 'potion_icon';
