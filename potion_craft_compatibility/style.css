@@ -33,16 +33,16 @@ body {
 
 /* Semi-opaque background for images — tuned per color scheme */
 @media (prefers-color-scheme: dark) {
-    .grid > a > img {
-        background-color: rgba(255,255,255,0.06); /* subtle white on dark */
+    .selected > img {
+        background-color: rgba(255,255,255,0.2); /* subtle white on dark */
         border-radius: 6px;
         display: inline-block;
     }
 }
 
 @media (prefers-color-scheme: light) {
-    .grid > a > img {
-        background-color: rgba(0,0,0,0.06); /* subtle black on light */
+    .selected > img {
+        background-color: rgba(0,0,0,0.2); /* subtle black on light */
         border-radius: 6px;
         display: inline-block;
     }
